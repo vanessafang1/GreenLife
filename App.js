@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 16,
     marginVertical: 16,
     alignItems: 'center',
     borderRadius: 20,
