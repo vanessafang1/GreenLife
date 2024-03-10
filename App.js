@@ -1,92 +1,76 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Button,
-  View,
-  SafeAreaView,
-  Text,
-  Alert,
-} from 'react-native';
+import {  Text,  View, Navigation} from 'react-native';
+import { Home, Forest } from "./screens";
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Entypo } from '@expo/vector-icons';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+//import { Text, Button, View } from 'react-native';
+import TagsPage from './screens/tagsScreen';
+import SettingsPage from './screens/settingScreen';
+import Track from './screens/Track';
 
-const Separator = () => <View style={styles.separator} />;
+//const Stack = createNativeStackNavigator();
 
-const App = () => (
-  <SafeAreaView style={styles.container}>
-    <View>
-      <Text style={styles.title}>
-        The title and onPress handler are required. It is recommended to set
-        accessibilityLabel to help make your app usable by everyone.
-      </Text>
-      <Button
-        title="Press me"
-        onPress={() => Alert.alert('Simple Button pressed')}
-      />
-    </View>
-    <Separator />
-    <View>
-      <Text style={styles.title}>
-        Adjust the color in a way that looks standard on each platform. On iOS,
-        the color prop controls the color of the text. On Android, the color
-        adjusts the background color of the button.
-      </Text>
-      <Button
-        title="Press me"
-        color="#f194ff"
-        onPress={() => Alert.alert('Button with adjusted color pressed')}
-      />
-    </View>
-    <Separator />
-    <View>
-      <Text style={styles.title}>
-        All interaction for the component are disabled.
-      </Text>
-      <Button
-        title="Press me"
-        disabled
-        onPress={() => Alert.alert('Cannot press this one')}
-      />
-    </View>
-    <Separator />
-    <View>
-      <Text style={styles.title}>
-        This layout strategy lets the title define the width of the button.
-      </Text>
-      <View style={styles.fixToText}>
-        <Button
-          title="Left button"
-          onPress={() => Alert.alert('Left button pressed')}
-        />
-        <Button
-          title="Right button"
-          onPress={() => Alert.alert('Right button pressed')}
-        />
-      </View>
-    </View>
-  </SafeAreaView>
-);
+const Tab =createBottomTabNavigator();
+const screenOptions = {
+  tabBarShowLabel:false,
+  headerShown:false,
+  tabBarStyle:{
+    position: "absolute",
+    elevation: 0,
+    height: 80,
+  }
+}
+export default function App() {
+  return (
+     <NavigationContainer>
+       <Tab.Navigator screenOptions={screenOptions}>
+          <Tab.Screen 
+          name="Home" 
+          component={Home} 
+          options={{
+            tabBarIcon: ({focused})=>{
+              return (
+                <View style={{alignItems: "center", justifyContent: "center"}}> 
+                  <Entypo name="home" size={24} color={focused ? "#228b22": "#111"} />
+                  <Text style={{fontSize: 12, color: "#16247d"}}>HOME</Text>
+            </View>
+              )
+            }
+          }}
+          />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    marginVertical: 16,
-    alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: '#73C2FB',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-});
-
-export default App;
+          <Tab.Screen 
+          name="Track" 
+          component={Track} 
+          options={{
+            tabBarIcon: ({focused})=>{
+              return (
+                <View style={{alignItems: "center", justifyContent: "center", borderRadius:100 }}> 
+                 <Entypo name="controller-play" size={40} backgroundColor={'#228b22'}/>
+                  <Text style={{fontSize: 12, color: "#16247d"}}>TRACK</Text>
+            </View>
+              )
+            } 
+          }}
+          />
+          <Tab.Screen
+           name="Forest" 
+           component={Forest}
+           options={{
+            tabBarIcon: ({focused})=>{
+              return (
+                <View style={{alignItems: "center", justifyContent: "center"}}> 
+                 <Entypo name="tree" size={24} color={focused ? "#228b22": "#111"} />
+                  <Text style={{fontSize: 12, color: "#16247d"}}>FOREST</Text>
+            </View>
+              )
+            }
+          }}
+           />
+         
+       </Tab.Navigator>
+      
+     </NavigationContainer>
+)
+}
